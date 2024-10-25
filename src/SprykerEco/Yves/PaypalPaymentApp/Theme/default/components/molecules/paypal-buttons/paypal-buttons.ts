@@ -62,11 +62,11 @@ export default class PaypalButtons extends Component {
             body: JSON.stringify(requestData),
         });
 
-        //csrf token has to be rotated after each request to prevent CSRF attacks
-        //parsedResponse.csrfToken
-        //parsedResponse.content
         const parsedResponse = await response.json();
         this.orderData = parsedResponse.content;
+
+        this.setAttribute('csrf-token', parsedResponse.csrfToken);
+
         return this.orderData.orderId;
     }
 
