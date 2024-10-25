@@ -18,7 +18,9 @@ export default class PaypalButtons extends Component {
     protected buttonsContainer: HTMLElement;
     protected orderData: OrderData;
 
-    protected readyCallback(): void {}
+    protected readyCallback(): void {
+
+    }
 
     protected init(): void {
         this.scriptLoader = <ScriptLoader>Array.from(this.getElementsByClassName(`${this.jsName}__script-loader`))[0];
@@ -29,33 +31,79 @@ export default class PaypalButtons extends Component {
     }
 
     protected mapEvents(): void {
-        this.scriptLoader.addEventListener('scriptload', () => this.onPaypalScriptLoad(), { once: true });
+        this.scriptLoader.addEventListener('scriptload', () => this.onPaypalScriptLoad(), {once: true});
     }
 
     protected onPaypalScriptLoad(): void {
-        this.initPaypaluttons();
+        this.initPaypalButtons();
     }
 
-    protected initPaypaluttons(): void {
+    protected initPaypalButtons(): void {
         paypal.Buttons({
-            createOrder: (data, actions) => (
-                fetch(this.url, { method: 'post' })
-                    .then((response) => response.json())
-                    .then((parsedResponse) => {
-                        this.orderData = parsedResponse;
-                        return this.orderData.orderId;
-                    })
-            ),
-            onApprove: (data, actions) => {
-                this.ajaxLoader.classList.remove('is-invisible');
-                const requestData = `MerchantId=${this.orderData.merchantId}&PayId=${this.orderData.payId}&OrderId=${this.orderData.orderId}`;
-                window.location.href = `https://www.computop-paygate.com/cbPayPal.aspx?rd=${window.btoa(requestData)}`;
-            }
+            createOrder: () => this.createOrder(),
+            onApprove: (data) => this.handleTransaction(data, this.successUrl),
+            onCancel: (data) => this.handleTransaction(data, this.cancelUrl),
+            onError: (err) => this.handleTransaction(err, this.failureUrl),
         }).render(this.buttonsContainer);
     }
 
-    protected get url(): string {
-        return this.getAttribute('order-data-url');
-        return this.getAttribute('csrf-token');
+    protected async createOrder(): Promise<string> {
+        const requestData = {
+            paymentMethod: this.paymentMethod,
+            paymentProvider: this.paymentProvider,
+            _token: this.csrfToken,
+        };
+
+        const response = await fetch(this.preOrderPaymentUrl, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        });
+
+        const parsedResponse = await response.json();
+        this.orderData = parsedResponse;
+        return this.orderData.orderId;
+    }
+
+    protected handleTransaction(data: any, redirectUrl: string): void {
+        this.toggleLoaderVisibility(false);
+
+        const queryString = new URLSearchParams(data).toString();
+        const fullUrl = `${redirectUrl}?${queryString}`;
+        window.location.assign(fullUrl);
+    }
+
+    protected toggleLoaderVisibility(isVisible: boolean): void {
+        this.ajaxLoader.classList.toggle('is-invisible', !isVisible);
+    }
+
+    protected get preOrderPaymentUrl(): string {
+        return this.getAttribute('pre-order-payment-url') || '';
+    }
+
+    protected get successUrl(): string {
+        return this.getAttribute('success-url') || '';
+    }
+
+    protected get failureUrl(): string {
+        return this.getAttribute('failure-url') || '';
+    }
+
+    protected get cancelUrl(): string {
+        return this.getAttribute('cancel-url') || '';
+    }
+
+    protected get csrfToken(): string {
+        return this.getAttribute('csrf-token') || '';
+    }
+
+    protected get paymentProvider(): string {
+        return this.getAttribute('payment-provider') || '';
+    }
+
+    protected get paymentMethod(): string {
+        return this.getAttribute('payment-method') || '';
     }
 }

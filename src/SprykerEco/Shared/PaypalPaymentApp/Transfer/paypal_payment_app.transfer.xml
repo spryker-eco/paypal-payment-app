@@ -3,4 +3,72 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
 
+    <transfer name="PaypalQueryParameters" strict="true">
+        <property name="clientId" type="string" description="Your PayPal REST client ID."/>
+        <property name="buyerCountry" type="string" description="The buyer country for determining eligible funding sources."/>
+        <property name="commit" type="bool" description="The commit status of the transaction."/>
+        <property name="components" type="string" description="The PayPal components to render on the page."/>
+        <property name="currency" type="string" description="The currency for the transaction."/>
+        <property name="debug" type="bool" description="Enable or disable debug mode."/>
+        <property name="disableFunding" type="string" description="Funding sources to disallow from showing in the checkout buttons."/>
+        <property name="enableFunding" type="string" description="Funding sources to display as buttons at checkout."/>
+        <property name="integrationDate" type="string" description="The integration date of the script for backward compatibility."/>
+        <property name="intent" type="string" description="The intent for the transaction."/>
+        <property name="locale" type="string" description="The locale used to localize any components."/>
+        <property name="merchantId" type="string" description="The merchant ID for whom you are facilitating a transaction."/>
+        <property name="vault" type="bool" description="Whether the payment information will be saved for billing agreements, subscriptions, or recurring payments."/>
+    </transfer>
+
+    <transfer name="PaypalScriptParameters" strict="true">
+        <property name="dataCspNonce" type="string" description="CSP single-use token used to render the button."/>
+        <property name="dataClientToken" type="string" description="Client token used for identifying your buyers."/>
+        <property name="dataPageType" type="string" description="Log page type and interactions for the JavaScript SDK."/>
+        <property name="dataPartnerAttributionId" type="string" description="Partner attribution ID used for revenue attribution."/>
+        <property name="dataUserIdToken" type="string" description="Attribute to pass the id_token from your server into the JavaScript SDK."/>
+    </transfer>
+
+    <transfer name="PaypalExpressCheckoutConfiguration" strict="true">
+        <property name="paypalQueryParameters" type="PaypalQueryParameters"/>
+        <property name="paypalScriptParameters" type="PaypalScriptParameters"/>
+        <property name="redirectUrls" type="ExpressCheckoutRedirectUrls"/>
+        <property name="csrfToken" type="string"/>
+        <property name="paymentMethod" type="PaymentMethod"/>
+    </transfer>
+
+    <transfer name="ExpressCheckoutPaymentMethodTemplateConfiguration" strict="true">
+        <property name="paypalExpressCheckoutConfiguration" type="PaypalExpressCheckoutConfiguration"/>
+    </transfer>
+
+    <transfer name="ExpressCheckoutRedirectUrls" strict="true">
+        <property name="preOrderPaymentUrl" type="string"/>
+        <property name="successUrl" type="string"/>
+        <property name="failureUrl" type="string"/>
+        <property name="cancelUrl" type="string"/>
+    </transfer>
+
+    <transfer name="PaymentMethod">
+        <property name="paymentMethodKey" type="string" strict="true"/>
+    </transfer>
+
+    <transfer name="ExpressCheckoutConfiguration">
+        <property name="quote" type="Quote"/>
+        <property name="redirectUrls" type="ExpressCheckoutRedirectUrls"/>
+        <property name="csrfToken" type="string"/>
+    </transfer>
+
+    <transfer name="ExpressCheckoutPaymentMethodTemplate">
+        <property name="moduleName" type="string" description="Name of the module providing the template."/>
+        <property name="templateType" type="string" description="Type of the template (e.g., view, molecule)."/>
+        <property name="templateName" type="string" description="Name of the template."/>
+        <property name="templateConfiguration" type="ExpressCheckoutPaymentMethodTemplateConfiguration"/>
+    </transfer>
+
+    <transfer name="Quote">
+        <property name="currency" type="Currency"/>
+    </transfer>
+
+    <transfer name="Currency">
+        <property name="code" type="string"/>
+    </transfer>
+
 </transfers>
