@@ -50,13 +50,13 @@
         <property name="paymentMethodKey" type="string" strict="true"/>
     </transfer>
 
-    <transfer name="ExpressCheckoutConfiguration">
+    <transfer name="ExpressCheckoutConfiguration" strict="true">
         <property name="quote" type="Quote"/>
         <property name="redirectUrls" type="ExpressCheckoutRedirectUrls"/>
         <property name="csrfToken" type="string"/>
     </transfer>
 
-    <transfer name="ExpressCheckoutPaymentMethodTemplate">
+    <transfer name="ExpressCheckoutPaymentMethodTemplate" strict="true">
         <property name="moduleName" type="string" description="Name of the module providing the template."/>
         <property name="templateType" type="string" description="Type of the template (e.g., view, molecule)."/>
         <property name="templateName" type="string" description="Name of the template."/>

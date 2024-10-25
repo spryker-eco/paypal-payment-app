@@ -46,7 +46,6 @@ class PaypalPaymentAppConfig extends AbstractBundleConfig
     public function getExpressCheckoutPaymentMethodKeys(): array
     {
         return [
-            'dummyPaymentInvoice',
             static::PAYMENT_METHOD_KEY_PAYPAL_EXPRESS_CHECKOUT,
         ];
     }
@@ -64,9 +63,7 @@ class PaypalPaymentAppConfig extends AbstractBundleConfig
     public function getPaypalExpressCheckoutWidgetQueryParameters(): PaypalQueryParametersTransfer
     {
         return (new PaypalQueryParametersTransfer())
-            ->setIntent(static::QUERY_PARAMETER_INTENT_AUTHORIZE)
-            ->setClientId('AUn5n-4qxBUkdzQBv6f8yd8F4AWdEvV6nLzbAifDILhKGCjOS62qQLiKbUbpIKH_O2Z3OL8CvX7ucZfh')
-            ->setMerchantId('3QK84QGGJE5HW');
+            ->setIntent(static::QUERY_PARAMETER_INTENT_AUTHORIZE);
     }
 
     /**
