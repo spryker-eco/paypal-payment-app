@@ -37,6 +37,7 @@
 
     <transfer name="ExpressCheckoutPaymentMethodTemplateConfiguration" strict="true">
         <property name="paypalExpressCheckoutConfiguration" type="PaypalExpressCheckoutConfiguration"/>
+
     </transfer>
 
     <transfer name="ExpressCheckoutRedirectUrls" strict="true">
@@ -47,7 +48,7 @@
     </transfer>
 
     <transfer name="PaymentMethod">
-        <property name="paymentMethodKey" type="string" strict="true"/>
+        <property name="paymentMethodKey" type="string"/>
         <property name="paymentMethodAppConfiguration" type="PaymentMethodAppConfiguration"/>
     </transfer>
 
@@ -70,6 +71,14 @@
 
     <transfer name="Currency">
         <property name="code" type="string"/>
+    </transfer>
+
+    <transfer name="PaymentMethodAppConfiguration">
+        <property name="checkoutConfiguration" type="CheckoutConfiguration"/>
+    </transfer>
+
+    <transfer name="CheckoutConfiguration">
+        <property name="strategy" type="string"/>
     </transfer>
 
 </transfers>

@@ -6,7 +6,9 @@
     "require": {
         "php": ">=8.2",
         "spryker-shop/payment-app-widget-extension": "^1.0.0",
-        "spryker/kernel": "^3.30.0"
+        "spryker-shop/shop-ui": "^1.73.0",
+        "spryker/kernel": "^3.30.0",
+        "spryker/transfer": "^3.27.0"
     },
     "require-dev": {
         "phpstan/phpstan": "*",
