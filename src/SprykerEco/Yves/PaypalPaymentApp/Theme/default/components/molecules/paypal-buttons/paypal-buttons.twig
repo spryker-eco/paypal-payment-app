@@ -1,0 +1,65 @@
+{# @var data.templateConfiguration \Generated\Shared\Transfer\ExpressCheckoutPaymentMethodTemplateConfigurationTransfer #}
+{# @var data.templateConfiguration.paypalExpressCheckoutConfiguration \Generated\Shared\Transfer\PaypalExpressCheckoutConfigurationTransfer #}
+{# @var data.templateConfiguration.paypalExpressCheckoutConfiguration.paypalQueryParameters \Generated\Shared\Transfer\PaypalQueryParametersTransfer #}
+{# @var data.templateConfiguration.paypalExpressCheckoutConfiguration.paypalScriptParameters \Generated\Shared\Transfer\PaypalScriptParametersTransfer #}
+{# @var data.templateConfiguration.paypalExpressCheckoutConfiguration.redirectUrls \Generated\Shared\Transfer\ExpressCheckoutRedirectUrlsTransfer #}
+{# @var data.templateConfiguration.paymentMethod \Generated\Shared\Transfer\PaymentMethodTransfer #}
+
+{% extends model('component') %}
+
+{% define config = {
+    name: 'paypal-buttons',
+    tag: 'paypal-buttons',
+} %}
+
+{% define data = {
+    templateConfiguration: required,
+} %}
+
+{% set paypalQueryParameters = data.templateConfiguration.paypalExpressCheckoutConfiguration.paypalQueryParameters %}
+{% set paypalScriptParameters = data.templateConfiguration.paypalExpressCheckoutConfiguration.paypalScriptParameters %}
+{% set redirectUrls = data.templateConfiguration.paypalExpressCheckoutConfiguration.redirectUrls %}
+{% set paymentMethod = data.templateConfiguration.paypalExpressCheckoutConfiguration.paymentMethod %}
+{% set csrfToken = data.templateConfiguration.paypalExpressCheckoutConfiguration.csrfToken %}
+
+{% set queryString = '' %}
+{% for key, value in paypalQueryParameters.toArray() %}
+    {% if value is not empty %}
+        {% set transformedKey = key|replace({'_': '-'}) %}
+        {% set queryString = queryString ~ transformedKey ~ '=' ~ value|url_encode ~ '&' %}
+    {% endif %}
+{% endfor %}
+{% set queryString = queryString|slice(0, -1) %}
+
+{% set scriptSrc = 'https://sandbox.paypal.com/sdk/js?' ~ queryString %}
+
+{% define attributes = {
+    'pre-order-payment-url': redirectUrls.preOrderPaymentUrl,
+    'success-url': redirectUrls.successUrl,
+    'failure-url': redirectUrls.failureUrl,
+    'cancel-url': redirectUrls.cancelUrl,
+    'csrf-token': csrfToken,
+    'payment-method': paymentMethod.paymentMethodKey,
+    'payment-provider': paymentMethod.paymentProvider.paymentProviderKey | default(''),
+} %}
+
+{% block body %}
+    <div class="{{ config.jsName }}__buttons-container"></div>
+
+    {% block scriptLoader %}
+        {% include molecule('script-loader') with {
+            class: config.jsName ~ '__script-loader',
+            attributes: {
+                src: scriptSrc,
+            },
+        } only %}
+    {% endblock %}
+
+    {% set ajaxLoaderModifiers = ['big'] %}
+    {% block ajaxLoader %}
+        {% include molecule('ajax-loader') with {
+            class: config.jsName ~ '__ajax-loader',
+            modifiers: ajaxLoaderModifiers,
+        } only %}
+    {% endblock %}
+{% endblock %}
