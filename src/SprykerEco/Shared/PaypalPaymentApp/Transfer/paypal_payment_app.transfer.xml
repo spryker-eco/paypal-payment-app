@@ -48,7 +48,7 @@
     </transfer>
 
     <transfer name="PaymentMethod">
-        <property name="paymentMethodKey" type="string"/>
+        <property name="paymentMethodKey" type="string" strict="true"/>
         <property name="paymentMethodAppConfiguration" type="PaymentMethodAppConfiguration"/>
     </transfer>
 
@@ -73,11 +73,11 @@
         <property name="code" type="string"/>
     </transfer>
 
-    <transfer name="PaymentMethodAppConfiguration">
+    <transfer name="PaymentMethodAppConfiguration" strict="true">
         <property name="checkoutConfiguration" type="CheckoutConfiguration"/>
     </transfer>
 
-    <transfer name="CheckoutConfiguration">
+    <transfer name="CheckoutConfiguration" strict="true">
         <property name="strategy" type="string"/>
     </transfer>
 
