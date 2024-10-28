@@ -26,7 +26,7 @@ class PaypalPaymentAppConfig extends AbstractBundleConfig
     /**
      * @var string
      */
-    protected const PAYMENT_METHOD_KEY_PAYPAL_EXPRESS_CHECKOUT = 'paypal_express_checkout';
+    protected const PAYMENT_METHOD_KEY_PAYPAL_EXPRESS_CHECKOUT = 'payone-paypal-express';
 
     /**
      * @var string

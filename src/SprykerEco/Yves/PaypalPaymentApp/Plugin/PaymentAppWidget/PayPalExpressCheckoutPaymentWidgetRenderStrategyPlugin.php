@@ -37,10 +37,10 @@ class PayPalExpressCheckoutPaymentWidgetRenderStrategyPlugin extends AbstractPlu
         ExpressCheckoutConfigurationTransfer $expressCheckoutConfigurationTransfer,
     ): bool {
         return in_array(
-                $paymentMethodTransfer->getPaymentMethodKey(),
-                $this->getConfig()->getExpressCheckoutPaymentMethodKeys(),
-                true,
-            ) && $paymentMethodTransfer->getPaymentMethodAppConfiguration()?->getCheckoutConfiguration()?->getStrategy() === PaypalPaymentAppConfig::CHECKOUT_CONFIGURATION_STRATEGY_EXPRESS_CHECKOUT;
+            $paymentMethodTransfer->getPaymentMethodKey(),
+            $this->getConfig()->getExpressCheckoutPaymentMethodKeys(),
+            true,
+        ) && $paymentMethodTransfer->getPaymentMethodAppConfiguration()?->getCheckoutConfiguration()?->getStrategy() === PaypalPaymentAppConfig::CHECKOUT_CONFIGURATION_STRATEGY_EXPRESS_CHECKOUT;
     }
 
     /**

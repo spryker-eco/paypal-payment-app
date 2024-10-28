@@ -48,6 +48,7 @@
 
     <transfer name="PaymentMethod">
         <property name="paymentMethodKey" type="string" strict="true"/>
+        <property name="paymentMethodAppConfiguration" type="PaymentMethodAppConfiguration"/>
     </transfer>
 
     <transfer name="ExpressCheckoutConfiguration" strict="true">
