@@ -79,6 +79,8 @@
 
     <transfer name="CheckoutConfiguration" strict="true">
         <property name="strategy" type="string"/>
+        <property name="clientId" type="string"/>
+        <property name="merchantId" type="string"/>
     </transfer>
 
 </transfers>

@@ -16,9 +16,9 @@ use SprykerEco\Yves\PaypalPaymentApp\PaypalPaymentAppConfig;
 
 class PayPalExpressCheckoutPaymentMethodTemplateReader implements PayPalExpressCheckoutPaymentMethodTemplateReaderInterface
 {
- /**
-  * @var string
-  */
+    /**
+     * @var string
+     */
     protected const MODULE_NAME_PAYPAL_PAYMENT_APP = 'PaypalPaymentApp';
 
     /**
@@ -60,6 +60,8 @@ class PayPalExpressCheckoutPaymentMethodTemplateReader implements PayPalExpressC
         $paypalQueryParametersTransfer->setCurrency(
             $expressCheckoutConfigurationTransfer->getQuoteOrFail()->getCurrencyOrFail()->getCodeOrFail(),
         );
+
+        $paypalQueryParametersTransfer->fromArray($paymentMethodTransfer->getPaymentMethodAppConfiguration()->getCheckoutConfiguration()->toArray(), true);
 
         return (new ExpressCheckoutPaymentMethodTemplateTransfer())
             ->setModuleName(static::MODULE_NAME_PAYPAL_PAYMENT_APP)
