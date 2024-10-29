@@ -63,6 +63,9 @@ export default class PaypalButtons extends Component {
         });
 
         const parsedResponse = await response.json();
+
+        console.log(parsedResponse);
+
         this.orderData = parsedResponse.content;
 
         this.setAttribute('csrf-token', parsedResponse.csrfToken);
@@ -75,7 +78,7 @@ export default class PaypalButtons extends Component {
 
         const queryString = new URLSearchParams(data).toString();
         const fullUrl = `${redirectUrl}?${queryString}`;
-        window.location.assign(fullUrl);
+        // window.location.assign(fullUrl);
     }
 
     protected toggleLoaderVisibility(isVisible: boolean): void {

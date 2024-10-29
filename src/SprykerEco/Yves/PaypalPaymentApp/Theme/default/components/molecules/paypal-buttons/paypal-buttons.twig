@@ -39,8 +39,8 @@
     'failure-url': redirectUrls.failureUrl,
     'cancel-url': redirectUrls.cancelUrl,
     'csrf-token': csrfToken,
-    'payment-method': paymentMethod.paymentMethodKey,
-    'payment-provider': paymentMethod.paymentProvider.paymentProviderKey | default(''),
+    'payment-method': paymentMethod.name | lower | replace({' ': '-'}),
+    'payment-provider': paymentMethod.paymentProvider.name | default('') | lower,
 } %}
 
 {% block body %}
