@@ -61,7 +61,7 @@ class PayPalExpressCheckoutPaymentMethodTemplateReader implements PayPalExpressC
             $expressCheckoutConfigurationTransfer->getQuoteOrFail()->getCurrencyOrFail()->getCodeOrFail(),
         );
 
-        $paypalQueryParametersTransfer->fromArray($paymentMethodTransfer->getPaymentMethodAppConfiguration()->getCheckoutConfiguration()->toArray(), true);
+        $paypalQueryParametersTransfer->fromArray($paymentMethodTransfer->getPaymentMethodAppConfigurationOrFail()->getCheckoutConfigurationOrFail()->toArray(), true);
 
         return (new ExpressCheckoutPaymentMethodTemplateTransfer())
             ->setModuleName(static::MODULE_NAME_PAYPAL_PAYMENT_APP)
