@@ -51,7 +51,7 @@ export default class PaypalButtons extends Component {
         const requestData = {
             paymentMethod: this.paymentMethod,
             paymentProvider: this.paymentProvider,
-            _token: this.csrfToken,
+            csrfToken: this.csrfToken,
         };
 
         const response = await fetch(this.preOrderPaymentUrl, {
@@ -64,8 +64,6 @@ export default class PaypalButtons extends Component {
 
         const parsedResponse = await response.json();
 
-        console.log(parsedResponse);
-
         this.orderData = parsedResponse.content;
 
         this.setAttribute('csrf-token', parsedResponse.csrfToken);
@@ -76,8 +74,12 @@ export default class PaypalButtons extends Component {
     protected handleTransaction(data: any, redirectUrl: string): void {
         this.toggleLoaderVisibility(false);
 
+        data.psp_order_reference = data.orderID;
+        delete data.orderID;
+
         const queryString = new URLSearchParams(data).toString();
         const fullUrl = `${redirectUrl}?${queryString}`;
+
         window.location.assign(fullUrl);
     }
 
